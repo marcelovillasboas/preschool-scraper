@@ -24,7 +24,7 @@
   "navigation": {
     "load_timeout": 5,
     "pagination_timeout": 0.5,
-    "results_per_page": 2,
+    "results_per_page": 15,
     "pages_total": 2,
     "next_page": "#app_top > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.MuiGrid-container.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-8 > div:nth-child(2) > span:nth-child(3) > nav > ul > li:nth-child(10) > button"
   },

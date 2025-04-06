@@ -118,7 +118,6 @@ class AbstractScraper(ABC):
                 EC.element_to_be_clickable((by_selector, identifier))
             )
             element.click()
-            logging.info(f"Clicked element with {by}='{identifier}'")
         except Exception as e:
             logging.error(f"Failed to click element with {by}='{identifier}': {e}")
             raise

@@ -27,6 +27,7 @@ class TXSchoolsScraper(AbstractScraper):
             self.execute_main()
             self.execute_after()
             self.save_data(self.content_df, self.configs["storage"]["filename"], self.configs["storage"]["headers"])
+            self.save_failed_urls()
             print("Data saved to file.")
         except Exception as e:
             print(f"An error occurred during scraping: {e}")
@@ -110,3 +111,14 @@ class TXSchoolsScraper(AbstractScraper):
         except Exception as e:
             raise Exception("Failed to transform data into DataFrame.") from e
         return df
+
+    def save_failed_urls(self):
+        """Save failed URLs to a CSV file."""
+        try:
+            if self.failed_urls:
+                failed_df = pd.DataFrame(self.failed_urls, columns=["Failed URLs"])
+                failed_filename = f"{self.configs['storage']['filename']}_failed"
+                failed_df.to_csv(f"{failed_filename}.csv", index=False)
+                print(f"Failed URLs saved to {failed_filename}.csv")
+        except Exception as e:
+            print(f"Failed to save failed URLs: {e}")
