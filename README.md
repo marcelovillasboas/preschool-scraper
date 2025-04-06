@@ -71,12 +71,12 @@ Ensure you have the following installed:
 
    Set the following environment variables as needed:
 
-   - 'HEADLESS': 'True'
+   - 'HEADLESS': 'False'
 
-   Example:
+   Example (Recommended for running this instance):
 
    ```bash
-   export HEADLESS=True
+   export HEADLESS=False
    ```
 
 2. **Adjusting the Number of Pages to Scrape**:

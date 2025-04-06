@@ -5,7 +5,6 @@ import pandas as pd
 
 from browser.scrapers.default_scraper import AbstractScraper
 
-
 class TXSchoolsScraper(AbstractScraper):
     def __init__(self):
         super().__init__()
@@ -70,20 +69,17 @@ class TXSchoolsScraper(AbstractScraper):
     def access_url_and_save_content(self, url):
         try:
             self.navigate_to_url(url)
-            time.sleep(self.configs["navigation"]["load_timeout"])
+            self.wait_for_element("css_selector", self.configs["table"]["school_name"], timeout=self.configs["navigation"]["load_timeout"])
 
-            school_name = self.get_element_text("css_selector", self.configs["table"]["school_name"])
-            district_and_grades_served = self.get_element_text("css_selector", self.configs["table"]["district_and_grades_served"])
-            address = self.get_element_text("css_selector", self.configs["table"]["address"])
-            phone = self.get_element_text("css_selector", self.configs["table"]["phone"])
-            website = self.get_element_attribute("css_selector", self.configs["table"]["website"], "href")
+            school_name = self._extract_school_name()
+            district_and_grades_served = self._extract_district_and_grades_served()
+            address = self._extract_address()
+            phone = self._extract_phone()
+            website = self._extract_website()
 
-            district = district_and_grades_served.split("Grades Served")[0].strip()
-            grades_served = district_and_grades_served.split("Grades Served")[1].strip()
-            grades_served = grades_served.lstrip(": ").strip()
-            address = address.replace("ADDRESS:\n", "").strip()
-            phone = phone.replace("PHONE:\n", "").strip()
-            district = district.replace("District: ", "").strip()
+            district, grades_served = self._process_district_and_grades(district_and_grades_served)
+            address = self._process_address(address)
+            phone = self._process_phone(phone)
 
             self.content.append({
                 "Company": school_name,
@@ -121,3 +117,45 @@ class TXSchoolsScraper(AbstractScraper):
             raise Exception("Failed to transform failed URLs into DataFrame.") from e
         
         return df
+
+    def _extract_school_name(self):
+        return self.get_element_text("css_selector", self.configs["table"]["school_name"])
+
+    def _extract_district_and_grades_served(self):
+        return self.get_element_text("css_selector", self.configs["table"]["district_and_grades_served"])
+
+    def _extract_address(self):
+        return self.get_element_text("css_selector", self.configs["table"]["address"])
+
+    def _extract_phone(self):
+        return self.get_element_text("css_selector", self.configs["table"]["phone"])
+
+    def _extract_website(self):
+        return self.get_element_attribute("css_selector", self.configs["table"]["website"], "href")
+
+    def _process_district_and_grades(self, district_and_grades_served):
+        district = district_and_grades_served.split("Grades Served")[0].strip()
+        district = district.replace("District: ", "")
+        grades_served = district_and_grades_served.split("Grades Served")[1].strip()
+        grades_served = grades_served.lstrip(": ").strip()
+        return district, grades_served
+
+    def _process_address(self, address):
+        return address.replace("ADDRESS:\n", "").strip()
+
+    def _process_phone(self, phone):
+        return phone.replace("PHONE:\n", "").strip()
+
+    # def capture_screenshot(self, filename="screenshot.png"):
+    #     """Saves a screenshot to the project root folder. Function used for debugging and testing."""
+    #     self.browser.save_screenshot(filename)
+    #     print(f"Screenshot saved as {filename}")
+
+    # def scroll_to_bottom(self):
+    #     """Scroll to the bottom of the page. Used for debugging and testing"""
+    #     try:
+    #         self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    #         logging.info("Scrolled to the bottom of the page.")
+    #     except Exception as e:
+    #         logging.error(f"Failed to scroll to the bottom of the page: {e}")
+    #         raise

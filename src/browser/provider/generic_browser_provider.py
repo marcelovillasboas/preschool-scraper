@@ -21,7 +21,7 @@ class GenericBrowserProvider:
             "--memory-pressure-off",
             "--ignore-certificate-errors",
             "--disable-features=site-per-process",
-            "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         ]
         
         self._configure_browser()
@@ -52,9 +52,9 @@ class GenericBrowserProvider:
             raise
 
     def _set_headless_mode(self) -> None:
-        """Set the browser to headless mode based on environment variable."""
-        headless = 'False'
-        if headless and headless.lower() in ['true', '1']:
+        """Set the browser to headless mode based on the HEADLESS environment variable."""
+        headless = os.getenv('HEADLESS', 'False') 
+        if headless.lower() in ['true', '1']: 
             self.options.add_argument("--headless")
 
     def click(self, selector: str) -> None:
@@ -77,6 +77,4 @@ class GenericBrowserProvider:
             elapsed_time += 1
         logging.warning(f"Timeout reached. File of type '{filetype}' not found within {timeout} seconds.")
         return False
-    
-    def press_key(key: str):
-        return
+

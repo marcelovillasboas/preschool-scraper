@@ -122,6 +122,26 @@ class AbstractScraper(ABC):
             logging.error(f"Failed to click element with {by}='{identifier}': {e}")
             raise
 
+    def wait_for_element(self, by: str, identifier: str, timeout: int = 10) -> None:
+        """
+        Wait for an element to be present in the DOM.
+
+        :param by: The method to locate the element (e.g., "id", "class_name", "css_selector").
+        :param identifier: The identifier of the element (e.g., ID or class name).
+        :param timeout: The maximum time to wait for the element to be present.
+        """
+        try:
+            by_selector = getattr(By, by.upper(), None)
+            if not by_selector:
+                raise ValueError(f"Invalid By selector: '{by}'")
+
+            WebDriverWait(self.browser, timeout).until(
+                EC.presence_of_element_located((by_selector, identifier))
+            )
+        except Exception as e:
+            logging.error(f"Failed to wait for element with {by}='{identifier}': {e}")
+            raise
+
     def get_element_attribute(self, by: str, identifier: str, attribute: str) -> str:
         """
         Get an attribute value of an element identified by a selector, using a string for the By identifier.
@@ -136,7 +156,9 @@ class AbstractScraper(ABC):
             if not by_selector:
                 raise ValueError(f"Invalid By selector: '{by}'")
 
-            element = self.browser.find_element(by_selector, identifier)
+            element = WebDriverWait(self.browser, 10).until(
+                EC.visibility_of_element_located((by_selector, identifier))
+            )
             return element.get_attribute(attribute)
         except Exception as e:
             logging.error(f"Failed to get attribute '{attribute}' from element with {by}='{identifier}': {e}")
