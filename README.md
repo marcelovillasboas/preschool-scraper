@@ -94,7 +94,6 @@ Ensure you have the following installed:
 The results of an execution will be saved in files at the root of the project:
 
 - `txschools-data.csv`: Stores the result found in the search pages;
-- `insights.csv`: Stores the information on the schools execution volumetry after it's finished;
 - `failed-urls.csv`: Stores the URLs that failed during scraping for further analysis or reprocessing.
 
 ## Project Structure
