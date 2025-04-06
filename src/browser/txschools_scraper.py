@@ -27,7 +27,6 @@ class TXSchoolsScraper(AbstractScraper):
             self.execute_main()
             self.execute_after()
             self.save_data(self.content_df, self.configs["storage"]["filename"], self.configs["storage"]["headers"])
-            print(self.failed_urls_df)
             if len(self.failed_urls_df) > 0: self.save_data(self.failed_urls_df, self.configs["storage"]["failed_filename"], self.configs["storage"]["failed_headers"])
             print("Data saved to file.")
         except Exception as e:
