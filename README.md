@@ -90,8 +90,8 @@ Ensure you have the following installed:
      "load_timeout": 5,
      "pagination_timeout": 0.5,
      "results_per_page": 15,
-     "pages_total": 2,  // Change this value to adjust the number of pages to scrape
-     // [...]
+     "pages_total": 50,
+     [...]
    }
    ```
 
