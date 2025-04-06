@@ -25,6 +25,7 @@ Ensure you have the following installed:
 
    ```bash
    git clone https://github.com/marcelovillasboas/preschool-scraper.git
+
    cd preschool-scraper
    ```
 
