@@ -1,0 +1,52 @@
+{
+  "link": {
+    "path": "https://txschools.gov/?view=schools&lng=en",
+    "connector": "",
+    "query_connector": "",
+    "page_prefix": ""
+  },
+  "script": {
+    "before": {
+      "goto": "https://txschools.gov/?view=schools&lng=en"
+    }
+  },
+  "table": {
+    "schools": "#app_top > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.MuiGrid-container.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-8 > div:nth-child(2) > div > div > div > table > tbody > tr:nth-child({row}) > td:nth-child(1) > div > a",
+    "school_name": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6 > h1",
+    "district_and_grades_served": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6 > span",
+    "address": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.jss16.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-5 > p:nth-child(1)",
+    "phone": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.jss16.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-5 > p:nth-child(2)",
+    "website": "#app_top > div > div > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.jss51.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7 > div > div.MuiGrid-root.jss52.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-4 > a"
+  },
+  "dropdown": {
+    "input_class": "//*[@id=\"app_top\"]/div[2]/div[1]/div/div/div[1]/div/div/div"
+  },
+  "navigation": {
+    "load_timeout": 5,
+    "pagination_timeout": 0.5,
+    "results_per_page": 2,
+    "pages_total": 2,
+    "next_page": "#app_top > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.MuiGrid-container.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-8 > div:nth-child(2) > span:nth-child(3) > nav > ul > li:nth-child(10) > button"
+  },
+  "consolidation": {
+    "columns": [
+      "Company",
+      "District",
+      "Grades Served",
+      "Address",
+      "Phone",
+      "Website"
+    ]
+  },
+  "storage": {
+    "filename": "txschools_data",
+    "headers": [
+      "Company",
+      "District",
+      "Grades Served",
+      "Address",
+      "Phone",
+      "Website"
+    ]
+  }
+}
