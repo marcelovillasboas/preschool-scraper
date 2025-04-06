@@ -8,6 +8,8 @@ import pandas as pd
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -99,19 +101,89 @@ class AbstractScraper(ABC):
             logging.error(f"Data successfully read from '{filename}'.csv.")
             raise
 
-    def wait_and_click(self, by: By, identifier: str, timeout: int = 10):
+    def wait_and_click(self, by: str, identifier: str, timeout: int = 10):
         """
         Wait for an element to be clickable and click it.
 
-        :param by: The method to locate the element (e.g., By.ID, By.CLASS_NAME).
+        :param by: The method to locate the element (e.g., "id", "class_name", "css_selector").
         :param identifier: The identifier of the element (e.g., ID or class name).
         :param timeout: The maximum time to wait for the element to be clickable.
         """
         try:
+            by_selector = getattr(By, by.upper(), None)
+            if not by_selector:
+                raise ValueError(f"Invalid By selector: '{by}'")
+
             element = WebDriverWait(self.browser, timeout).until(
-                EC.element_to_be_clickable((by, identifier))
+                EC.element_to_be_clickable((by_selector, identifier))
             )
             element.click()
+            logging.info(f"Clicked element with {by}='{identifier}'")
         except Exception as e:
             logging.error(f"Failed to click element with {by}='{identifier}': {e}")
+            raise
+
+    def get_element_attribute(self, by: str, identifier: str, attribute: str) -> str:
+        """
+        Get an attribute value of an element identified by a selector, using a string for the By identifier.
+
+        :param by: The method to locate the element (e.g., "id", "class_name", "css_selector").
+        :param identifier: The identifier of the element (e.g., ID or class name).
+        :param attribute: The attribute to retrieve (e.g., "href", "text").
+        :return: The value of the specified attribute.
+        """
+        try:
+            by_selector = getattr(By, by.upper(), None)
+            if not by_selector:
+                raise ValueError(f"Invalid By selector: '{by}'")
+
+            element = self.browser.find_element(by_selector, identifier)
+            return element.get_attribute(attribute)
+        except Exception as e:
+            logging.error(f"Failed to get attribute '{attribute}' from element with {by}='{identifier}': {e}")
+            raise
+
+    def press_key(self, key: str) -> None:
+        """Press a key using ActionChains."""
+        try:
+            key_to_press = getattr(Keys, key.upper(), None)
+            if not key_to_press:
+                raise ValueError(f"Invalid key: '{key}'")
+
+            action_chain = ActionChains(self.browser)
+            action_chain.send_keys(key_to_press).perform()
+        except Exception as e:
+            logging.error(f"Failed to press key '{key}': {e}")
+            raise
+
+    def navigate_to_url(self, url: str) -> None:
+        """
+        Navigate to a specified URL.
+        
+        :param url: The URL to navigate to.
+        """
+        try:
+            self.browser.get(url)
+            logging.info(f"Navigated to URL: {url}")
+        except Exception as e:
+            logging.error(f"Failed to navigate to URL '{url}': {e}")
+            raise
+
+    def get_element_text(self, by: str, identifier: str) -> str:
+        """
+        Get the text of an element identified by a selector.
+
+        :param by: The method to locate the element (e.g., "id", "class_name", "css_selector").
+        :param identifier: The identifier of the element (e.g., ID or class name).
+        :return: The text content of the element.
+        """
+        try:
+            by_selector = getattr(By, by.upper(), None)
+            if not by_selector:
+                raise ValueError(f"Invalid By selector: '{by}'")
+
+            element = self.browser.find_element(by_selector, identifier)
+            return element.text.strip()
+        except Exception as e:
+            logging.error(f"Failed to get text from element with {by}='{identifier}': {e}")
             raise
