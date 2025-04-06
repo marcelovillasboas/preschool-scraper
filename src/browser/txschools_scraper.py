@@ -95,28 +95,19 @@ class TXSchoolsScraper(AbstractScraper):
 
     def execute_after(self):
         try:
-            self.content_df = self.transform_to_df()
-            self.failed_urls_df = self.transform_failures_to_df()
+            self.content_df = self.transform_to_df(self.content, self.configs["consolidation"]["columns"], add_execution_date=True)
+            self.failed_urls_df = self.transform_to_df(self.failed_urls, self.configs["storage"]["failed_headers"], add_execution_date=True)
         except Exception as e:
             raise Exception("Failed to execute post-scraping logic.") from e
 
-    def transform_to_df(self):
+    def transform_to_df(self, data, columns, add_execution_date=False):
         try:
-            columns = self.configs["consolidation"]["columns"]
-            df = pd.DataFrame(self.content, columns=columns)
-            df = df.assign(execution_date=datetime.now().isoformat())
+            df = pd.DataFrame(data, columns=columns)
+            if add_execution_date:
+                df = df.assign(execution_date=datetime.now().isoformat())
+            return df
         except Exception as e:
             raise Exception("Failed to transform data into DataFrame.") from e
-        
-        return df
-
-    def transform_failures_to_df(self):
-        try:
-            df = pd.DataFrame(self.failed_urls, columns=self.configs["storage"]["failed_headers"])
-        except Exception as e:
-            raise Exception("Failed to transform failed URLs into DataFrame.") from e
-        
-        return df
 
     def _extract_school_name(self):
         return self.get_element_text("css_selector", self.configs["table"]["school_name"])
@@ -135,7 +126,7 @@ class TXSchoolsScraper(AbstractScraper):
 
     def _process_district_and_grades(self, district_and_grades_served):
         district = district_and_grades_served.split("Grades Served")[0].strip()
-        district = district.replace("District: ", "")
+        district = district.replace("District: ", "").strip()
         grades_served = district_and_grades_served.split("Grades Served")[1].strip()
         grades_served = grades_served.lstrip(": ").strip()
         return district, grades_served
