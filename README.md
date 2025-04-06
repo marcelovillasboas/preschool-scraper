@@ -134,6 +134,21 @@ The results of an execution will be saved in files at the root of the project:
       - `configs/`: Stores the .json files containing the configurations for the execution.
   - `tools/`: Contains utility modules like CSV handler.
 
+### Libraries Used
+
+## 1. Selenium
+
+**Pros**:
+
+- Handles dynamic content and JavaScript-heavy websites.
+- Simulates user interactions like clicks, scrolling, and typing.
+- Supports multiple browsers and headless mode.
+
+**Cons**:
+
+- Slower and more resource-intensive compared to lightweight libraries.
+- Requires setup to handle anti-bot measures.
+
 ## Future Improvements and Features
 
 If given more time, the project could be expanded and improved in the following ways:
