@@ -200,18 +200,7 @@ If given more time, the project could be expanded and improved in the following 
 
 ---
 
-### 6. **Error Handling and Logging**
-
-- **Error Logging**:
-
-  - Logs errors during scraping to help identify and resolve issues.
-
-- **Failed URLs**:
-  - Captures failed URLs and saves them to a separate CSV file for reprocessing.
-
----
-
-### 7. **Requests and Responses Handling**
+### 6. **Requests and Responses Handling**
 
 - **Direct API Interaction**:
 
@@ -231,7 +220,7 @@ If given more time, the project could be expanded and improved in the following 
 
 ---
 
-### 8. **Storage Service**
+### 7. **Storage Service**
 
 - **Centralized Data Storage**:
 
