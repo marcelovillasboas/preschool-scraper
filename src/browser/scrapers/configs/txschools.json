@@ -40,6 +40,7 @@
   },
   "storage": {
     "filename": "txschools_data",
+    "failed_filename": "txschools_failed_data",
     "headers": [
       "Company",
       "District",
@@ -47,6 +48,7 @@
       "Address",
       "Phone",
       "Website"
-    ]
+    ],
+    "failed_headers": ["Failed_URLs"]
   }
 }

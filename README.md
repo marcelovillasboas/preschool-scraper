@@ -79,6 +79,34 @@ Ensure you have the following installed:
    export HEADLESS=True
    ```
 
+2. **Adjusting the Number of Pages to Scrape**:
+
+   The number of pages to scrape can be configured in the `txschools.json` file, specifically in the `"pages_total"` field under the `"navigation"` section.
+
+   ### Example:
+
+   ```json
+   "navigation": {
+     "load_timeout": 5,
+     "pagination_timeout": 0.5,
+     "results_per_page": 15,
+     "pages_total": 2,  // Change this value to adjust the number of pages to scrape
+     // [...]
+   }
+   ```
+
+   **Notes on Configuring the Number of Pages to Scrape**
+
+   - Default Value: For practical reasons, the default value of "pages_total" is kept low (e.g., 2) to limit the scraping process during testing or development.
+   - Scraping All Pages: If you want to scrape all available pages, you can set this value to 317 (the total number of pages at the time of writing).
+   - Future Improvement: In a future version, the scraper could dynamically determine the total number of pages by analyzing the page's HTML structure, eliminating the need to manually configure this value.
+
+   **How to Update**
+
+   - Open the `txschools.json` file located in the configs directory.
+   - Modify the `pages_total` field to the desired number of pages.
+   - Save the file and re-run the scraper.
+
 ### Running the Project
 
 1. **Start the Application:**

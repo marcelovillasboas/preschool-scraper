@@ -27,7 +27,8 @@ class TXSchoolsScraper(AbstractScraper):
             self.execute_main()
             self.execute_after()
             self.save_data(self.content_df, self.configs["storage"]["filename"], self.configs["storage"]["headers"])
-            self.save_failed_urls()
+            print(self.failed_urls_df)
+            if len(self.failed_urls_df) > 0: self.save_data(self.failed_urls_df, self.configs["storage"]["failed_filename"], self.configs["storage"]["failed_headers"])
             print("Data saved to file.")
         except Exception as e:
             print(f"An error occurred during scraping: {e}")
@@ -95,11 +96,12 @@ class TXSchoolsScraper(AbstractScraper):
             })
 
         except Exception as e:
-            print(f"Failed to access URL: {url}. Error: {e}")
+            raise Exception(f"Failed to access URL: {url}. Error: {e}")
 
     def execute_after(self):
         try:
             self.content_df = self.transform_to_df()
+            self.failed_urls_df = self.transform_failures_to_df()
         except Exception as e:
             raise Exception("Failed to execute post-scraping logic.") from e
 
@@ -110,15 +112,13 @@ class TXSchoolsScraper(AbstractScraper):
             df = df.assign(execution_date=datetime.now().isoformat())
         except Exception as e:
             raise Exception("Failed to transform data into DataFrame.") from e
+        
         return df
 
-    def save_failed_urls(self):
-        """Save failed URLs to a CSV file."""
+    def transform_failures_to_df(self):
         try:
-            if self.failed_urls:
-                failed_df = pd.DataFrame(self.failed_urls, columns=["Failed URLs"])
-                failed_filename = f"{self.configs['storage']['filename']}_failed"
-                failed_df.to_csv(f"{failed_filename}.csv", index=False)
-                print(f"Failed URLs saved to {failed_filename}.csv")
+            df = pd.DataFrame(self.failed_urls, columns=self.configs["storage"]["failed_headers"])
         except Exception as e:
-            print(f"Failed to save failed URLs: {e}")
+            raise Exception("Failed to transform failed URLs into DataFrame.") from e
+        
+        return df
