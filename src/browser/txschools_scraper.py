@@ -76,18 +76,24 @@ class TXSchoolsScraper(AbstractScraper):
             address = self._extract_address()
             phone = self._extract_phone()
             website = self._extract_website()
+            total_students = self._extract_total_students()
 
             district, grades_served = self._process_district_and_grades(district_and_grades_served)
-            address = self._process_address(address)
+            processed_address = self._process_address(address)
             phone = self._process_phone(phone)
 
             self.content.append({
                 "Company": school_name,
                 "District": district,
                 "Grades Served": grades_served,
-                "Address": address,
+                "Full Address": processed_address["Full Address"],
+                "Street Address": processed_address["Street Address"],
+                "City": processed_address["City"],
+                "State": processed_address["State"],
+                "ZIP Code": processed_address["ZIP Code"],
                 "Phone": phone,
-                "Website": website
+                "Website": website,
+                "Total Students": total_students
             })
 
         except Exception as e:
@@ -123,6 +129,9 @@ class TXSchoolsScraper(AbstractScraper):
 
     def _extract_website(self):
         return self.get_element_attribute("css_selector", self.configs["table"]["website"], "href")
+    
+    def _extract_total_students(self):
+        return self.get_element_text("css_selector", self.configs["table"]["total_students"])
 
     def _process_district_and_grades(self, district_and_grades_served):
         district = district_and_grades_served.split("Grades Served")[0].strip()
@@ -132,7 +141,25 @@ class TXSchoolsScraper(AbstractScraper):
         return district, grades_served
 
     def _process_address(self, address):
-        return address.replace("ADDRESS:\n", "").strip()
+        try:
+            address = address.replace("ADDRESS:\n", "").strip()
+
+            parts = address.split(", ")
+            street_address = parts[0]
+            city = parts[1]
+            state_zip = parts[2] 
+
+            state, zip_code = state_zip.split(" ")
+
+            return {
+                "Full Address": address,
+                "Street Address": street_address,
+                "City": city,
+                "State": state,
+                "ZIP Code": zip_code
+            }
+        except Exception as e:
+            raise Exception(f"Failed to process address: {address}. Error: {e}")
 
     def _process_phone(self, phone):
         return phone.replace("PHONE:\n", "").strip()

@@ -16,7 +16,8 @@
     "district_and_grades_served": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6 > span",
     "address": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.jss16.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-5 > p:nth-child(1)",
     "phone": "#app_top > header.MuiPaper-root.MuiAppBar-root.MuiAppBar-positionSticky.MuiAppBar-colorPrimary.MuiPaper-elevation4 > div > div.MuiGrid-root.jss16.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-5 > p:nth-child(2)",
-    "website": "#app_top > div > div > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.jss51.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7 > div > div.MuiGrid-root.jss52.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-4 > a"
+    "website": "#app_top > div > div > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.jss51.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-7 > div > div.MuiGrid-root.jss52.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-4 > a",
+    "total_students": "#app_top > div > div > div:nth-child(4) > div.MuiGrid-root.MuiGrid-container > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-12.MuiGrid-grid-md-7 > b:nth-child(4)"
   },
   "dropdown": {
     "input_class": "//*[@id=\"app_top\"]/div[2]/div[1]/div/div/div[1]/div/div/div"
@@ -25,7 +26,7 @@
     "load_timeout": 5,
     "pagination_timeout": 0.5,
     "results_per_page": 15,
-    "pages_total": 5,
+    "pages_total": 35,
     "next_page": "#app_top > div.MuiGrid-root.MuiGrid-container > div.MuiGrid-root.MuiGrid-container.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-lg-8 > div:nth-child(2) > span:nth-child(3) > nav > ul > li:nth-child(10) > button"
   },
   "consolidation": {
@@ -33,9 +34,14 @@
       "Company",
       "District",
       "Grades Served",
-      "Address",
+      "Full Address",
+      "Street Address",
+      "City",
+      "State",
+      "ZIP Code",
       "Phone",
-      "Website"
+      "Website",
+      "Total Students"
     ]
   },
   "storage": {
@@ -45,9 +51,14 @@
       "Company",
       "District",
       "Grades Served",
-      "Address",
+      "Full Address",
+      "Street Address",
+      "City",
+      "State",
+      "ZIP Code",
       "Phone",
-      "Website"
+      "Website",
+      "Total Students"
     ],
     "failed_headers": ["Failed_URLs"]
   }
